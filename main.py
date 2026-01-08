@@ -70,6 +70,46 @@ def summarize_events() -> str:
     summary += "\n" 
   return summary 
 
+# Chat-style handler for simple messages/commands
+@mcp.tool()
+def handle_message(message: str) -> str:
+  """
+  Simple chat interface for the Event Calendar.
+
+  Supported commands:
+  - list -> lists events
+  - summarize -> returns the summary
+  - add:Title|YYYY-MM-DD|Optional description -> adds event
+  - delete:Title -> deletes event by title
+  Otherwise returns help text.
+  """
+  msg = (message or "").strip()
+  low = msg.lower()
+
+  if low == "list":
+    return view_events()
+
+  if low == "summarize":
+    return summarize_events()
+
+  if low.startswith("add:"):
+    parts = msg[4:].split("|")
+    if len(parts) < 2:
+      return "Invalid add command. Use: add:Title|YYYY-MM-DD|Optional description"
+    title = parts[0].strip()
+    date = parts[1].strip()
+    description = parts[2].strip() if len(parts) > 2 else ""
+    return add_event(title, date, description)
+
+  if low.startswith("delete:"):
+    title = msg[7:].strip()
+    return delete_event(title)
+
+  return (
+    "Unknown command. Try 'list', 'summarize', "
+    "'add:Title|YYYY-MM-DD|desc' or 'delete:Title'."
+  )
+
 if __name__ == "__main__": 
   mcp.run() 
 
