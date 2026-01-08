@@ -69,6 +69,11 @@ Tips:
 ## Editing the backend
 
 - `main.py` contains the FastMCP instance and FastAPI app.
+- `handle_message` is implemented as a conversational parser to allow more natural phrases (see the function docstring in `main.py` for details).
+- To add or tweak conversational patterns:
+  - Edit `handle_message` in `main.py`. The function uses a small set of regexes to interpret common forms (add/create/schedule with `on YYYY-MM-DD`, `today`, `tomorrow`; delete/remove/cancel; list queries with optional dates; summarize variants).
+  - Keep parsing simple and test with `curl` or `test_local.py` after changes. Aim for clarity and predictable fallbacks — when in doubt return a short help message rather than guessing user intent.
+
 - To add a new tool:
   - Decorate the function with `@mcp.tool()` (or `@mcp.prompt()` for prompt-style wrappers)
   - Keep functions simple and return serializable strings or objects

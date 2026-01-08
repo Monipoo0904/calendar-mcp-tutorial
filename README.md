@@ -28,7 +28,17 @@ Deploy to Vercel
 Notes
 
 - Vercel serverless functions are stateless — events are stored in-memory and **will reset** frequently.
-- The demo includes a `handle_message` tool for simple chat-like commands: `list`, `summarize`, `add:Title|YYYY-MM-DD|Desc`, `delete:Title`.
+- The demo includes a **conversational** `handle_message` tool that accepts both terse commands and natural language. Examples:
+  - `list` or `list events` → lists all events
+  - `list events on 2026-01-01` or `What's on 2026-01-01?` → lists events for that date
+  - `summarize` / `summary` / `what's coming up` → summary of upcoming events
+  - `add:Title|YYYY-MM-DD|Desc` (shorthand, still supported)
+  - `Add Birthday on 2026-02-01 about cake` → conversational add
+  - `Create Meeting on 2026-03-03` → conversational add
+  - `Add Meeting tomorrow` → supports `today` and `tomorrow`
+  - `delete:Title` or `delete Meeting` or `remove Meeting` → deletes by title
+
+  If a message isn't understood, the handler returns a short help text with examples.
 
 Frontend improvements:
 
