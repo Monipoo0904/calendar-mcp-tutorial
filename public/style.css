@@ -14,6 +14,16 @@
   --msg-hover-shadow: 0 12px 30px rgba(0,0,0,0.08);
   color-scheme: light;
 }
+
+/* Make typed text and UI readable in light theme */
+[data-theme="light"] .composer textarea{
+  color: #071429;
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.06);
+}
+[data-theme="light"] .composer textarea::placeholder{ color: rgba(0,0,0,0.45); }
+[data-theme="light"] .message .bubble{ color: #2b2b2b; }
+[data-theme="light"] .help{ color: #5b5b5b; }
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:#e6eef5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;transition:background 320ms ease,color 320ms ease}
 .chat{width:min(900px,96%);background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:14px;padding:18px;box-shadow:0 10px 40px rgba(2,6,23,0.07);border:1px solid rgba(255,255,255,0.02);overflow:hidden}
