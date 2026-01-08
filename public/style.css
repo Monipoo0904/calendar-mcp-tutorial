@@ -18,8 +18,13 @@ body{margin:0;font-family:Inter,Helvetica,Arial,sans-serif;background:var(--bg);
 .chat-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
 .brand{display:flex;gap:12px;align-items:center}
 .logo{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#d6ccc2,#e3d5ca);font-size:20px}
+.titles{position:relative}
 .titles h1{font-size:1.1rem;margin:0}
+.titles::before{content:"EC";position:absolute;left:-6px;top:-22px;font-size:48px;font-weight:800;color:rgba(0,0,0,0.08);pointer-events:none;mix-blend-mode:multiply}
 .subtitle{margin:0;font-size:0.82rem;color:var(--muted)}
+
+/* Tweak for light theme so letters remain visible */
+[data-theme="light"] .titles::before{color:rgba(0,0,0,0.12)}
 .controls{display:flex;gap:8px;align-items:center}
 .icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:var(--muted);cursor:pointer}
 .messages{max-height:520px;overflow:auto;padding:12px;border-radius:10px;background:transparent;margin-bottom:12px;display:flex;flex-direction:column;gap:10px}
