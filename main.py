@@ -86,44 +86,102 @@ def summarize_events() -> str:
     summary += "\n" 
   return summary 
 
-# Chat-style handler for simple messages/commands
+# Chat-style handler — conversational and flexible
 @mcp.tool()
 def handle_message(message: str) -> str:
   """
-  Simple chat interface for the Event Calendar.
+  Conversational chat interface for the Event Calendar.
 
-  Supported commands:
-  - list -> lists events
-  - summarize -> returns the summary
-  - add:Title|YYYY-MM-DD|Optional description -> adds event
-  - delete:Title -> deletes event by title
-  Otherwise returns help text.
+  Recognizes both terse commands and natural language. Examples:
+  - "list" or "list events" -> lists all events
+  - "list events on 2026-01-01" or "What's on 2026-01-01?" -> lists events for that date
+  - "summarize" / "summary" / "what's coming up" -> summary of upcoming events
+  - "add:Title|YYYY-MM-DD|Desc" -> legacy shorthand still supported
+  - "Add Birthday on 2026-02-01 about cake" -> conversational add
+  - "Create Meeting on 2026-03-03" -> conversational add
+  - "Add Meeting tomorrow" -> supports 'today' and 'tomorrow'
+  - "delete:Title" or "delete Meeting" or "remove Meeting" -> deletes by title
+
+  If the parser cannot confidently interpret the message, it returns a short help text with examples.
   """
+  import re
+  from datetime import timedelta
+
   msg = (message or "").strip()
   low = msg.lower()
 
-  if low == "list":
-    return view_events()
+  def parse_date_token(s: str):
+    s = (s or "").strip().lower()
+    if s in ("today",):
+      return datetime.today().strftime("%Y-%m-%d")
+    if s in ("tomorrow",):
+      return (datetime.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", s)
+    if m:
+      return m.group(1)
+    return None
 
-  if low == "summarize":
+  # Summaries
+  if any(k in low for k in ("summarize", "summary", "what's coming", "upcoming", "brief")):
     return summarize_events()
 
-  if low.startswith("add:"):
-    parts = msg[4:].split("|")
+  # Listing events (optionally by date)
+  if "list" in low or "events" in low or low.startswith("what"):
+    dt = parse_date_token(low)
+    if dt:
+      filtered = [e for e in events if e["date"] == dt]
+      if not filtered:
+        return f"No events found for {dt}."
+      result = f"Events on {dt}:\n"
+      for e in sorted(filtered, key=lambda x: x["date"]):
+        desc = f" - {e['description']}" if e['description'] else ""
+        result += f"- {e['date']}: {e['title']}{desc}\n"
+      return result
+    return view_events()
+
+  # Add (support legacy 'add:' and conversational patterns)
+  if low.startswith("add:") or low.startswith("create:") or low.startswith("schedule:"):
+    parts = msg.split(":", 1)[1].split("|")
     if len(parts) < 2:
-      return "Invalid add command. Use: add:Title|YYYY-MM-DD|Optional description"
+      return "Invalid add command. Use: add:Title|YYYY-MM-DD|Optional description or say 'Add Meeting on 2026-01-01'"
     title = parts[0].strip()
     date = parts[1].strip()
     description = parts[2].strip() if len(parts) > 2 else ""
     return add_event(title, date, description)
 
+  m = re.match(r'^(?:add|create|schedule)\s+(?P<title>.+?)\s+(?:on|for)\s+(?P<date>\d{4}-\d{2}-\d{2})(?:\s*(?:about|desc:|description:)\s*(?P<desc>.*))?$', msg, re.I)
+  if m:
+    title = m.group('title').strip()
+    date = m.group('date').strip()
+    description = (m.group('desc') or '').strip()
+    return add_event(title, date, description)
+
+  # 'Add ... tomorrow' or 'Add ... today'
+  m2 = re.match(r'^(?:add|create|schedule)\s+(?P<title>.+?)\s+(?P<d>today|tomorrow)$', msg, re.I)
+  if m2:
+    title = m2.group('title').strip()
+    date = parse_date_token(m2.group('d'))
+    if date:
+      return add_event(title, date, "")
+    return "Couldn't parse the date. Use YYYY-MM-DD, 'today' or 'tomorrow'."
+
+  # Delete (support legacy 'delete:' and conversational forms)
   if low.startswith("delete:"):
-    title = msg[7:].strip()
+    title = msg.split(":", 1)[1].strip()
+    return delete_event(title)
+  m = re.match(r'^(?:delete|remove|cancel)\s+(?:the\s+)?(?:event\s+)?(?P<title>.+)$', msg, re.I)
+  if m:
+    title = m.group('title').strip()
     return delete_event(title)
 
+  # Fallback help text
   return (
-    "Unknown command. Try 'list', 'summarize', "
-    "'add:Title|YYYY-MM-DD|desc' or 'delete:Title'."
+    "Sorry, I didn't understand. Try conversational commands like:\n"
+    "- \"Add Birthday on 2026-02-01\"\n"
+    "- \"Create Meeting on 2026-03-03 about planning\"\n"
+    "- \"List events on 2026-03-03\" or \"What's on 2026-03-03?\"\n"
+    "- \"Summarize upcoming\"\n"
+    "You can also use the shorthand: add:Title|YYYY-MM-DD|Desc, delete:Title, list, summarize."
   )
 
 # FastAPI endpoint for MCP tool calls
