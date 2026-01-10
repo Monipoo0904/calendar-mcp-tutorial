@@ -1,0 +1,2 @@
+# Ignore pyproject.toml to prevent Vercel from using uv package manager
+pyproject.toml
