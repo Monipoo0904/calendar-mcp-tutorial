@@ -1,6 +1,7 @@
 """Test script for OAuth functionality without actual credentials."""
 import sys
 import os
+import main
 
 sys.path.append(os.getcwd())
 
@@ -43,8 +44,6 @@ def test_authentication_status():
 
 def test_mcp_tools_import():
     """Test that main.py tools can be imported."""
-    import main
-    
     # Check that new tools exist
     assert hasattr(main, 'get_consent_prompt')
     assert hasattr(main, 'start_oauth_flow')

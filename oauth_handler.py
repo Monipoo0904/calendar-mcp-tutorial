@@ -1,7 +1,6 @@
 """OAuth 2.0 handler for Google Calendar and Gmail access."""
 import os
 import json
-from pathlib import Path
 from typing import Optional, Dict
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
@@ -80,8 +79,7 @@ class OAuthHandler:
             self._fetch_user_info()
             
             return True
-        except Exception as e:
-            print(f"Error exchanging code for token: {e}")
+        except Exception:
             return False
     
     def load_credentials(self) -> bool:
@@ -99,8 +97,8 @@ class OAuthHandler:
                 if self.credentials and self.credentials.valid:
                     self._fetch_user_info()
                     return True
-            except Exception as e:
-                print(f"Error loading credentials: {e}")
+            except Exception:
+                pass
         return False
     
     def _save_credentials(self):
@@ -126,8 +124,8 @@ class OAuthHandler:
             service = build('oauth2', 'v2', credentials=self.credentials)
             user_info = service.userinfo().get().execute()
             self.user_info = user_info
-        except Exception as e:
-            print(f"Error fetching user info: {e}")
+        except Exception:
+            pass
     
     def get_user_first_name(self) -> Optional[str]:
         """
