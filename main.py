@@ -82,9 +82,6 @@ def summarize_events() -> str:
     summary += "\n" 
   return summary 
 
-if __name__ == "__main__": 
-  mcp.run()
-
 # OAuth Login Tool
 @mcp.tool()
 def oauth_login(provider: str) -> str:
@@ -299,5 +296,8 @@ def oauth_logout(provider: str) -> str:
       return "Not currently logged in to Microsoft Calendar."
   
   else:
-    return f"Unknown provider: {provider}. Use 'google' or 'microsoft'." 
+    return f"Unknown provider: {provider}. Use 'google' or 'microsoft'."
+
+if __name__ == "__main__": 
+  mcp.run() 
 
