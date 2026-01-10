@@ -1,7 +1,13 @@
 [project]
 name = "event-calendar-mcp"
 version = "0.1.0"
-description = "Add your description here"
+description = "Calendar MCP server with OAuth 2.0 support for Google and Microsoft calendars"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "google-auth-oauthlib>=1.2.0",
+    "google-api-python-client>=2.100.0",
+    "msal>=1.24.0",
+    "icalendar>=5.0.0",
+    "python-dotenv>=1.0.0",
+]

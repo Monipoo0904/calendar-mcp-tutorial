@@ -8,3 +8,14 @@ wheels/
 
 # Virtual environments
 .venv
+
+# OAuth credentials and tokens
+credentials.json
+.calendar_mcp_tokens/
+*.token
+
+# Environment variables
+.env
+
+# Temporary ICS files
+/tmp/calendar_events/
