@@ -19,3 +19,6 @@ credentials.json
 
 # Temporary ICS files
 /tmp/calendar_events/
+
+# UV lock file (causes issues with Vercel)
+uv.lock
