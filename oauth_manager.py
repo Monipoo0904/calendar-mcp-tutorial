@@ -82,18 +82,28 @@ class OAuthManager:
         client_secret = os.getenv('MICROSOFT_CLIENT_SECRET')
         tenant_id = os.getenv('MICROSOFT_TENANT_ID', 'common')
         
-        if not client_id or not client_secret:
+        if not client_id:
             raise ValueError(
                 "Microsoft credentials not found. Please set MICROSOFT_CLIENT_ID "
-                "and MICROSOFT_CLIENT_SECRET environment variables."
+                "environment variable."
             )
         
-        # Create MSAL app
+        # Create MSAL app - use ConfidentialClientApplication if secret provided
         authority = f"https://login.microsoftonline.com/{tenant_id}"
-        app = msal.PublicClientApplication(
-            client_id,
-            authority=authority
-        )
+        
+        if client_secret:
+            # Use ConfidentialClientApplication for apps with client secret
+            app = msal.ConfidentialClientApplication(
+                client_id,
+                client_credential=client_secret,
+                authority=authority
+            )
+        else:
+            # Use PublicClientApplication for apps without client secret
+            app = msal.PublicClientApplication(
+                client_id,
+                authority=authority
+            )
         
         # Try to get token from cache
         accounts = app.get_accounts()
@@ -105,11 +115,20 @@ class OAuthManager:
                     json.dump(result, f)
                 return result
         
-        # Interactive login flow
-        result = app.acquire_token_interactive(
-            scopes=MICROSOFT_SCOPES,
-            prompt='select_account'
-        )
+        # Interactive login flow (device code flow for better compatibility)
+        # Device code flow works in headless/server environments
+        flow = app.initiate_device_flow(scopes=MICROSOFT_SCOPES)
+        
+        if "user_code" not in flow:
+            raise Exception(
+                "Failed to create device flow. Error: " + 
+                flow.get("error_description", "Unknown error")
+            )
+        
+        print(flow["message"])  # Display instructions to user
+        
+        # Wait for user to authenticate
+        result = app.acquire_token_by_device_flow(flow)
         
         if 'access_token' in result:
             self.microsoft_token = result

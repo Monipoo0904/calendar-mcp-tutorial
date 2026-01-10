@@ -12,11 +12,15 @@ def test_ics_generation():
     print("=" * 60)
     
     from ics_generator import ICSGenerator
+    from datetime import timedelta
     
     ics_gen = ICSGenerator()
+    # Use relative date to ensure test remains valid over time
+    future_date = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
+    
     result = ics_gen.generate_ics(
         title="Test Event",
-        date="2026-02-14",
+        date=future_date,
         description="Valentine's Day Event",
         start_time="18:00",
         end_time="20:00",
