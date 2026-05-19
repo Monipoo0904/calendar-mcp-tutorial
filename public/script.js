@@ -809,7 +809,7 @@ load();
 if (chat.length){
   chat.forEach(renderMessage);
 } else {
-  const welcomeMsg = `Welcome to The Academy Workspace.\n\n• Ask a question — e.g. "What is The Academy?" or "How does enrollment work?" — to search the knowledge base.\n• Say "lesson plans" to generate personalized student plans.\n• Add, list, or delete calendar events with natural language.`;
+  const welcomeMsg = `Welcome to Academy Planner.\n\n• Ask a question — e.g. "What is The Academy?" or "How does enrollment work?" — to search the knowledge base.\n• Say "lesson plans" to generate personalized student plans.\n• Add, list, or delete calendar events with natural language.`;
   addLocalMessage(welcomeMsg, 'bot');
   messages.scrollTop = messages.scrollHeight;
 }
@@ -900,7 +900,7 @@ function clearConversation(){
   chat = [];
   save();
   messages.innerHTML = '';
-  const welcomeMsg = `Welcome to The Academy Workspace.\n\n• Ask a question — e.g. "What is The Academy?" or "How does enrollment work?" — to search the knowledge base.\n• Say "lesson plans" to generate personalized student plans.\n• Add, list, or delete calendar events with natural language.`;
+  const welcomeMsg = `Welcome to Academy Planner.\n\n• Ask a question — e.g. "What is The Academy?" or "How does enrollment work?" — to search the knowledge base.\n• Say "lesson plans" to generate personalized student plans.\n• Add, list, or delete calendar events with natural language.`;
   addLocalMessage(welcomeMsg, 'bot');
   syncQuickActions();
 }
