@@ -1,26 +1,26 @@
-/* The Academy Workspace — stylesheet
+/* Academy Planner — stylesheet
    Layout: sidebar (220px) + workspace (flex-1)
-   Theme: forest green sidebar, light sage workspace
+   Theme: teal sidebar, clean white workspace
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap');
 
 :root {
-  --green:       #264226;
-  --green-dark:  #1a2f1d;
-  --green-mid:   #2e5030;
-  --gold:        #B18F40;
-  --brown:       #4A382B;
+  --green:       #0CB6B6;
+  --green-dark:  #099292;
+  --green-mid:   #0AABAB;
+  --gold:        #F5C842;
+  --brown:       #065555;
   --white:       #ffffff;
-  --bg:          #eceee9;
-  --panel:       #f8faf6;
-  --ink:         #1c1c1c;
-  --muted:       #6b6a65;
-  --line:        rgba(38, 66, 38, 0.18);
-  --accent:      #264226;
-  --accent-gold: #B18F40;
-  --chat-user:   #d4e8ce;
-  --chat-bot:    #ffffff;
+  --bg:          #EFF8F8;
+  --panel:       #FFFFFF;
+  --ink:         #1A2E2E;
+  --muted:       #6B8585;
+  --line:        rgba(12, 182, 182, 0.15);
+  --accent:      #0CB6B6;
+  --accent-gold: #F5C842;
+  --chat-user:   #DCF2F2;
+  --chat-bot:    #FFFFFF;
   --sidebar-w:   220px;
   color-scheme: light;
 }
@@ -81,7 +81,7 @@ body {
 .sidebar-logo svg {
   width: 22px;
   height: 22px;
-  color: var(--gold, #b18f40);
+  color: #fff;
 }
 
 .sidebar-name {
@@ -138,11 +138,11 @@ body {
 .connected-user {
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--accent-gold);
+  color: #fff;
   padding: 6px 10px;
-  background: rgba(177,143,64,0.15);
+  background: rgba(255,255,255,0.15);
   border-radius: 8px;
-  border: 1px solid rgba(177,143,64,0.3);
+  border: 1px solid rgba(255,255,255,0.25);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -266,7 +266,7 @@ body {
   gap: 10px;
   padding: 14px 14px 12px;
   background: var(--panel);
-  border: 1px solid rgba(38,66,38,0.1);
+  border: 1px solid rgba(12,182,182,0.18);
   border-radius: 14px;
   cursor: pointer;
   font-family: inherit;
@@ -277,8 +277,8 @@ body {
 
 .quick-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(38,66,38,0.11);
-  border-color: rgba(38,66,38,0.22);
+  box-shadow: 0 8px 18px rgba(12,182,182,0.18);
+  border-color: rgba(12,182,182,0.4);
 }
 
 .quick-card:active {
@@ -290,7 +290,7 @@ body {
   place-items: center;
   width: 36px;
   height: 36px;
-  background: rgba(38,66,38,0.08);
+  background: rgba(12,182,182,0.1);
   border-radius: 10px;
   color: var(--green);
   flex-shrink: 0;
@@ -329,9 +329,9 @@ body {
 .message.enter { opacity: 0; transform: translateY(5px); }
 
 .message .avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -344,8 +344,8 @@ body {
 }
 
 .message .avatar.user-avatar {
-  background: rgba(177,143,64,0.18);
-  color: var(--brown);
+  background: rgba(12,182,182,0.14);
+  color: var(--green);
   order: 2;
 }
 
@@ -354,9 +354,9 @@ body {
   border-radius: 14px;
   padding: 10px 14px;
   background: var(--chat-bot);
-  border: 1px solid rgba(38,66,38,0.09);
+  border: 1px solid rgba(12,182,182,0.14);
   color: var(--ink);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(12,182,182,0.08);
 }
 
 .message .bubble .text {
@@ -379,7 +379,7 @@ body {
 
 .message.user .bubble {
   background: var(--chat-user);
-  border-color: rgba(38,66,38,0.13);
+  border-color: rgba(12,182,182,0.22);
 }
 
 /* ── Composer ────────────────────────────── */
@@ -397,7 +397,7 @@ body {
   resize: none;
   overflow-y: auto;
   border-radius: 12px 0 0 12px;
-  border: 1.5px solid rgba(38,66,38,0.18);
+  border: 1.5px solid rgba(12,182,182,0.28);
   border-right: 0;
   background: var(--panel);
   color: var(--ink);
@@ -408,7 +408,7 @@ body {
   transition: border-color 150ms ease;
 }
 
-.composer textarea:focus { border-color: rgba(38,66,38,0.42); }
+.composer textarea:focus { border-color: rgba(12,182,182,0.65); }
 .composer textarea::placeholder { color: var(--muted); }
 
 .composer button[type="submit"] {
@@ -421,7 +421,7 @@ body {
   display: grid;
   place-items: center;
   transition: opacity 140ms ease;
-  box-shadow: 0 4px 12px rgba(38,66,38,0.22);
+  box-shadow: 0 4px 12px rgba(12,182,182,0.32);
 }
 
 .composer button[type="submit"]:hover  { opacity: 0.9; }
@@ -432,7 +432,7 @@ body {
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  border: 2px solid rgba(38,66,38,0.2);
+  border: 2px solid rgba(12,182,182,0.2);
   border-top-color: var(--green);
   animation: spin 800ms linear infinite;
   flex-shrink: 0;
@@ -447,7 +447,7 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: rgba(38,66,38,0.3);
+  background: rgba(12,182,182,0.4);
   animation: dot 1s ease-in-out infinite;
 }
 
@@ -466,13 +466,13 @@ body {
   padding: 4px 8px;
   font-size: 0.75rem;
   border-radius: 6px;
-  border: 1px solid rgba(74,56,43,0.14);
+  border: 1px solid rgba(12,182,182,0.22);
   cursor: pointer;
   font-family: inherit;
   transition: background 120ms ease;
 }
 
-.copy:hover { background: rgba(74,56,43,0.06); }
+.copy:hover { background: rgba(12,182,182,0.06); }
 
 .linklike {
   border: none;
@@ -504,7 +504,7 @@ body {
 .plan-secondary-btn {
   background: transparent !important;
   color: var(--green) !important;
-  border: 1px solid rgba(38,66,38,0.22) !important;
+  border: 1px solid rgba(12,182,182,0.35) !important;
 }
 
 .export-scope-label {
@@ -542,8 +542,8 @@ body {
 .rag-source-chip {
   display: inline-flex;
   flex-direction: column;
-  background: rgba(38,66,38,0.06);
-  border: 1px solid rgba(38,66,38,0.13);
+  background: rgba(12,182,182,0.07);
+  border: 1px solid rgba(12,182,182,0.18);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 0.74rem;
@@ -571,9 +571,9 @@ body {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--brown);
-  background: rgba(177,143,64,0.18);
-  border: 1px solid rgba(177,143,64,0.35);
+  color: var(--green-dark);
+  background: rgba(12,182,182,0.12);
+  border: 1px solid rgba(12,182,182,0.3);
   border-radius: 4px;
   padding: 2px 7px;
   margin-right: 4px;
@@ -583,7 +583,7 @@ body {
 /* ── Documents tab ───────────────────────── */
 .upload-zone {
   margin: 0 26px;
-  border: 2px dashed rgba(38,66,38,0.22);
+  border: 2px dashed rgba(12,182,182,0.3);
   border-radius: 16px;
   background: var(--panel);
   padding: 40px 24px;
@@ -599,11 +599,11 @@ body {
 
 .upload-zone:hover,
 .upload-zone.drag-over {
-  border-color: rgba(38,66,38,0.55);
-  background: rgba(38,66,38,0.03);
+  border-color: rgba(12,182,182,0.65);
+  background: rgba(12,182,182,0.04);
 }
 
-.upload-zone svg { color: rgba(38,66,38,0.4); }
+.upload-zone svg { color: rgba(12,182,182,0.5); }
 
 .upload-prompt {
   font-size: 0.9rem;
@@ -648,7 +648,7 @@ body {
   gap: 12px;
   padding: 10px 14px;
   background: var(--panel);
-  border: 1px solid rgba(38,66,38,0.1);
+  border: 1px solid rgba(12,182,182,0.14);
   border-radius: 10px;
   font-size: 0.86rem;
 }
@@ -656,7 +656,7 @@ body {
 .upload-file-item .file-icon {
   width: 28px;
   height: 28px;
-  background: rgba(38,66,38,0.08);
+  background: rgba(12,182,182,0.1);
   border-radius: 6px;
   display: grid;
   place-items: center;
@@ -686,8 +686,8 @@ body {
   flex-shrink: 0;
 }
 
-.file-status.uploading { background: rgba(177,143,64,0.14); color: var(--gold); }
-.file-status.done      { background: rgba(38,66,38,0.1);    color: var(--green); }
+.file-status.uploading { background: rgba(12,182,182,0.1);  color: var(--green); }
+.file-status.done      { background: rgba(12,182,182,0.14); color: var(--green-dark); }
 .file-status.error     { background: rgba(200,50,50,0.1);   color: #c23232; }
 
 /* ── Responsive ──────────────────────────── */
